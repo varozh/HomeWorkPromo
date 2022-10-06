@@ -1,26 +1,33 @@
 package ru.list;
 
 import java.util.*;
-import java.util.function.Consumer;
-import java.util.function.IntFunction;
-import java.util.function.Predicate;
-import java.util.function.UnaryOperator;
-import java.util.stream.Stream;
 
-public class List implements java.util.List {
+import static com.sun.tools.attach.VirtualMachine.list;
+
+public class MyList<T> implements List<T> {
+    private List<T> list = new ArrayList<>();
+
     @Override
     public int size() {
-        return 0;
+        int size = 0;
+        for(T t: list)
+            size++;
+        return size;
     }
 
     @Override
     public boolean isEmpty() {
-        return false;
+        return size() == 0;
     }
 
     @Override
     public boolean contains(Object o) {
-        return false;
+        boolean flag = false;
+        for (T t: list) {
+            if (t.equals(o))
+                flag = true;
+        }
+        return flag;
     }
 
     @Override
@@ -29,23 +36,20 @@ public class List implements java.util.List {
     }
 
     @Override
-    public void forEach(Consumer action) {
-        List.super.forEach(action);
-    }
-
-    @Override
     public Object[] toArray() {
+        Object[] ob = new Object[size()];
+        for (int i = 0; i < list.size(); i++) {
+            String st = (String) list.get(i);
+            ob[i] = st;
+        }
+        System.out.println(ob);
         return new Object[0];
     }
 
     @Override
-    public Object[] toArray(IntFunction generator) {
-        return List.super.toArray(generator);
-    }
-
-    @Override
     public boolean add(Object o) {
-        return false;
+        list.add((T) o);
+        return true;
     }
 
     @Override
@@ -59,23 +63,8 @@ public class List implements java.util.List {
     }
 
     @Override
-    public boolean removeIf(Predicate filter) {
-        return List.super.removeIf(filter);
-    }
-
-    @Override
     public boolean addAll(int index, Collection c) {
         return false;
-    }
-
-    @Override
-    public void replaceAll(UnaryOperator operator) {
-        java.util.List.super.replaceAll(operator);
-    }
-
-    @Override
-    public void sort(Comparator c) {
-        java.util.List.super.sort(c);
     }
 
     @Override
@@ -84,7 +73,7 @@ public class List implements java.util.List {
     }
 
     @Override
-    public Object get(int index) {
+    public T get(int index) {
         return null;
     }
 
@@ -99,7 +88,7 @@ public class List implements java.util.List {
     }
 
     @Override
-    public Object remove(int index) {
+    public T remove(int index) {
         return null;
     }
 
@@ -124,23 +113,8 @@ public class List implements java.util.List {
     }
 
     @Override
-    public java.util.List subList(int fromIndex, int toIndex) {
+    public List subList(int fromIndex, int toIndex) {
         return null;
-    }
-
-    @Override
-    public Spliterator spliterator() {
-        return java.util.List.super.spliterator();
-    }
-
-    @Override
-    public Stream stream() {
-        return List.super.stream();
-    }
-
-    @Override
-    public Stream parallelStream() {
-        return List.super.parallelStream();
     }
 
     @Override
@@ -161,5 +135,9 @@ public class List implements java.util.List {
     @Override
     public Object[] toArray(Object[] a) {
         return new Object[0];
+    }
+
+    public void print() {
+        System.out.println(list);
     }
 }
