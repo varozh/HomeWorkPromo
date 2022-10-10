@@ -2,15 +2,13 @@ package ru.list;
 
 import java.util.*;
 
-import static com.sun.tools.attach.VirtualMachine.list;
-
 public class MyList<T> implements List<T> {
-    private List<T> list = new ArrayList<>();
+    public List<T> list = new ArrayList<>();
 
     @Override
     public int size() {
         int size = 0;
-        for(T t: list)
+        for (T T: list)
             size++;
         return size;
     }
@@ -22,12 +20,11 @@ public class MyList<T> implements List<T> {
 
     @Override
     public boolean contains(Object o) {
-        boolean flag = false;
-        for (T t: list) {
+        for (Object t: list) {
             if (t.equals(o))
-                flag = true;
+                return true;
         }
-        return flag;
+        return false;
     }
 
     @Override
@@ -37,13 +34,10 @@ public class MyList<T> implements List<T> {
 
     @Override
     public Object[] toArray() {
-        Object[] ob = new Object[size()];
-        for (int i = 0; i < list.size(); i++) {
-            String st = (String) list.get(i);
-            ob[i] = st;
-        }
-        System.out.println(ob);
-        return new Object[0];
+        Object[] array = new Object[size()];
+        for (int i = 0; i < size(); i++)
+            array[i] = list.get(i);
+        return array;
     }
 
     @Override
@@ -54,17 +48,42 @@ public class MyList<T> implements List<T> {
 
     @Override
     public boolean remove(Object o) {
-        return false;
+        boolean flag = false;
+        for(int i = 0; i < list.size(); i++) {
+            if (list.get(i).equals(o)) {
+                list.remove(i);
+                flag = true;
+            }
+        }
+        return flag;
+    }
+
+    @Override
+    public boolean addAll(int index, Collection<? extends T> c) {
+        Object[] ob = c.toArray();
+        int count = 0;
+        for (int i = ob.length - 1; i >= 0; i--) {
+            list.add(index, (T) ob[i]);
+        }
+        return count > 0;
     }
 
     @Override
     public boolean addAll(Collection c) {
-        return false;
-    }
-
-    @Override
-    public boolean addAll(int index, Collection c) {
-        return false;
+        Object[] ob = c.toArray();
+        int count = 0;
+        for (int i = 0; i < ob.length; i++) {
+            boolean flag = true;
+            for (int j = 0; j < list.size(); j++) {
+                if (list.get(j).equals(ob[i]))
+                    flag = false;
+            }
+            if (flag) {
+                list.add((T) ob[i]);
+                count++;
+            }
+        }
+        return count > 0;
     }
 
     @Override
@@ -74,7 +93,7 @@ public class MyList<T> implements List<T> {
 
     @Override
     public T get(int index) {
-        return null;
+        return list.get(index);
     }
 
     @Override
