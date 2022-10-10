@@ -16,7 +16,6 @@ public class Main {
         array.add("Пожар");
         array.add("987");
 
-        list.addAll(1, array);
         list.print();
     }
 }

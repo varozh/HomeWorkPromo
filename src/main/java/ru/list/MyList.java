@@ -29,7 +29,11 @@ public class MyList<T> implements List<T> {
 
     @Override
     public Iterator iterator() {
-        return null;
+        int count = 0;
+        boolean flag = count < list.size() && list.get(count) != null;
+        if (!flag)
+            return null;
+        return (Iterator) list.get(count++);
     }
 
     @Override
@@ -93,7 +97,8 @@ public class MyList<T> implements List<T> {
 
     @Override
     public T get(int index) {
-        return list.get(index);
+        Object[] ob = list.toArray();
+        return (T) ob[index];
     }
 
     @Override
