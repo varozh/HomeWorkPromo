@@ -92,7 +92,8 @@ public class MyList<T> implements List<T> {
 
     @Override
     public void clear() {
-
+        for (int i = 0; i < size(); i++)
+            list.remove(i);
     }
 
     @Override
@@ -103,6 +104,9 @@ public class MyList<T> implements List<T> {
 
     @Override
     public Object set(int index, Object element) {
+        Object[] ob = list.toArray();
+        for (int i = 0; i < ob.length; i++)
+            System.out.println(ob[i]);
         return null;
     }
 
