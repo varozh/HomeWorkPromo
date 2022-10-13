@@ -140,7 +140,21 @@ public class MyList<T> implements List<T> {
 
     @Override
     public boolean retainAll(Collection<?> c) {
-        return false;
+        int count = 0;
+        int size = list.length;
+        Object[] array = c.toArray();
+        int index = 0;
+        for (int i = 0; i < list.length; i++) {
+            for (int j = 0; j < array.length; j++) {
+                if (list[i].equals(array[j])) {
+                    count++;
+                    list[index++] = list[i];
+                }
+            }
+        }
+        list = Arrays.copyOf(list, list.length - count);
+
+        return size > list.length;
     }
 
     @Override
@@ -215,12 +229,26 @@ public class MyList<T> implements List<T> {
 
     @Override
     public void sort(Comparator<? super T> c) {
-        List.super.sort(c);
+        Comparator<Object> com = (Comparator<Object>) c;
+        boolean isSort = false;
+        while (!isSort) {
+            isSort = true;
+            for (int i = 1; i < list.length; i++) {
+                if (com.compare(list[i], list[i - 1]) < 0) {
+                    Object min = list[i];
+                    list[i] = list[i - 1];
+                    list[i - 1] = min;
+                    isSort = false;
+                }
+            }
+        }
+
     }
 
     public void print() {
         for (int i = 0; i < list.length; i++)
             System.out.print(list[i] + " ");
+        System.out.println();
     }
 
 
